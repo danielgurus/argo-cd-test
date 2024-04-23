@@ -1,0 +1,17 @@
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: myapp
+spec:
+  scaleTargetRef:
+    name: my-app-deployment
+    kind: Deployment
+  pollingInterval: 10 # in seconds
+  cooldownPeriod:  60 # in seconds
+  minReplicaCount: 1
+  maxReplicaCount: 10
+  triggers:
+  - type: pod
+    metadata:
+      averageValue: "100" # Percentage of CPU utilization as a string
+      name: cpu
